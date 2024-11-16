@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 gamma: rotationRate.gamma || 0
             }
         };
+
+       
+
         motionData.push(data);
         if (motionData.length > 50) motionData.shift(); // 데이터 개수 제한
     }
@@ -60,8 +63,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    
+
     // 주기적으로 모션 데이터를 서버에 전송
-    setInterval(sendMotionData, 3000);
+    setInterval(sendMotionData, 5000);
+    
 
     function startMotionCapture() {
         if (window.DeviceMotionEvent) {
