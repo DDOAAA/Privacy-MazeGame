@@ -77,28 +77,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-     // 권한 요청 버튼에 이벤트 리스너 추가
-     requestPermissionButton.addEventListener("click", () => {
-        if (typeof DeviceMotionEvent.requestPermission === 'function') {
-            DeviceMotionEvent.requestPermission()
-                .then(permissionState => {
-                    if (permissionState === 'granted') {
-                        console.log('Permission granted');
-                        startMotionCapture(); // 권한 승인 후 모션 데이터 캡처 시작
-                    } else {
-                        console.error('Permission denied');
-                        alert('모션 데이터를 사용하려면 권한을 허용해주세요.');
-                    }
-                })
-                .catch(error => console.error('Permission request failed:', error));
-        } else {
-            console.log('DeviceMotionEvent.requestPermission is not required.');
-            startMotionCapture(); // 권한 요청이 필요하지 않은 경우 바로 시작
-        }
-    });
-
-    
-
     function startGame() {
         document.addEventListener("keydown", movePlayer);
         drawMaze();
