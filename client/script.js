@@ -7,8 +7,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
     const restartButton = document.getElementById("restartGame");
+    const startSineWaveButton = document.getElementById("startSineWave");
+    const stopSineWaveButton = document.getElementById("stopSineWave");
     const messageElement = document.getElementById("message");
     let player = { x: 40, y: 40, size: 40, color: "red" };
+    let oscillator = null;
+    let audioContext = null;
+
     const blockSize = canvas.width / 10;
     const maze = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -77,6 +82,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function startSineWave() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        oscillator = audioContext.createOscillator();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440Hz Sine Wave
+        oscillator.connect(audioContext.destination);
+        oscillator.start();
+        console.log("Sine Wave 시작");
+    }
+
+    function stopSineWave() {
+        if (oscillator) {
+            oscillator.stop();
+            oscillator.disconnect();
+            oscillator = null;
+            console.log("Sine Wave 중지");
+        }
+    }
+
     function startGame() {
         document.addEventListener("keydown", movePlayer);
         drawMaze();
@@ -138,6 +165,9 @@ document.addEventListener("DOMContentLoaded", function() {
         startGame();
     });
 
+    startSineWaveButton.addEventListener("click", startSineWave);
+    stopSineWaveButton.addEventListener("click", stopSineWave);
+    
     startGame();
     startMotionCapture();
 });
